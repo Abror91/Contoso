@@ -1,12 +1,9 @@
 ﻿using Contose.DAL.Core.IReposotories;
 using Contoso.Models.DTOs;
-using Contoso.Models.Entities;
 using Contoso.Models.ViewModels;
 using Contoso.Services.IServices;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Contoso.Services.Services
@@ -21,8 +18,31 @@ namespace Contoso.Services.Services
 
         public async Task Add(AddDepartmentViewModel model)
         {
-            var entity = new Department { Name = model.Name };
-            await _departmentRepository.Add(entity);
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            await _departmentRepository.Add(model.ToEntity());
+            await _departmentRepository.SaveChanges();
+        }
+
+        public async Task Delete(int id)
+        {
+            await _departmentRepository.Delete(id);
+            await _departmentRepository.SaveChanges();
+        }
+
+        public async Task Edit(EditDepartmentViewModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            var entity = await _departmentRepository.GetById((int)model.Id);
+
+            if (entity == null)
+                throw new Exception("Department not found!");
+
+            model.EditEntity(entity);
+            _departmentRepository.Edit(entity);
             await _departmentRepository.SaveChanges();
         }
 
