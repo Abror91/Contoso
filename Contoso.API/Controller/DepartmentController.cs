@@ -36,11 +36,41 @@ namespace Contoso.API.Controller
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Add([FromBody] AddDepartmentViewModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest("Model is not valid");
+
             await _departmentService.Add(model);
 
-            return Ok();
+            return NoContent();
         }
+
+        [HttpPost("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] EditDepartmentViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Model is not valid");
+
+            if (id != model.Id)
+                return BadRequest("Department Ids do not match");
+
+            await _departmentService.Edit(model);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            await _departmentService.Delete(id);
+            return NoContent();
+        }
+
     }
 }
