@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Contoso.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Contoso.Models.ViewModels
 {
@@ -7,5 +8,14 @@ namespace Contoso.Models.ViewModels
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 2)]
         public string Name { get; set; }
+
+        public Department ToEntity()
+        {
+            var department = new Department
+            {
+                Name = Name
+            };
+            return department;
+        }
     }
 }

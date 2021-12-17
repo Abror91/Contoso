@@ -1,5 +1,6 @@
 ﻿using Contose.DAL.Core.IReposotories;
 using Contoso.Models.DTOs;
+using Contoso.Models.ViewModels;
 using Contoso.Services.IServices;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,36 @@ namespace Contoso.Services.Services
         public StudentService(IStudentRepository studentRepository)
         {
             _studentRepository = studentRepository;
+        }
+
+        public async Task Add(AddStudentViewModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            await _studentRepository.Add(model.ToEntity());
+            await _studentRepository.SaveChanges();
+        }
+
+        public async Task Delete(int id)
+        {
+            await _studentRepository.Delete(id);
+            await _studentRepository.SaveChanges();
+        }
+
+        public async Task Edit(EditStudentViewModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            var entity = await _studentRepository.GetById((int)model.Id);
+
+            if (entity == null)
+                throw new Exception("Student not found!");
+
+            model.EditEntity(entity);
+            _studentRepository.Edit(entity);
+            await _studentRepository.SaveChanges();
         }
 
         public async Task<StudentDTO> GetById(int id)
