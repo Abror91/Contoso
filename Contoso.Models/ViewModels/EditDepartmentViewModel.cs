@@ -9,10 +9,9 @@ namespace Contoso.Models.ViewModels
         public int? Id { get; set; }
         [Required]
         public string Name { get; set; }
-
-        public void EditEntity(Department entity)
+        public void EditEntity(Department model)
         {
-            entity.Name = Name;
+            model.Name = Name;
         }
     }
 }
