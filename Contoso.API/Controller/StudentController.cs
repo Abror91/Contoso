@@ -74,11 +74,5 @@ namespace Contoso.API.Controller
             await _studentService.Delete(id);
             return NoContent();
         }
-
-        [HttpGet]
-        public IActionResult Testing()
-        {
-            return Ok();
-        }
     }
 }
