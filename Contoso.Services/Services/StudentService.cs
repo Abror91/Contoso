@@ -18,13 +18,13 @@ namespace Contoso.Services.Services
             _studentRepository = studentRepository;
         }
 
-        public async Task Add(AddStudentViewModel model)
+        public async Task<int> Add(AddStudentViewModel model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            await _studentRepository.Add(model.ToEntity());
-            await _studentRepository.SaveChanges();
+            var id = await _studentRepository.Add(model.ToEntity());
+            return id;
         }
 
         public async Task Delete(int id)

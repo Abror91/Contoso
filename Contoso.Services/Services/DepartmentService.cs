@@ -16,13 +16,13 @@ namespace Contoso.Services.Services
             _departmentRepository = departmentRepository;
         }
 
-        public async Task Add(AddDepartmentViewModel model)
+        public async Task<int> Add(AddDepartmentViewModel model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
 
-            await _departmentRepository.Add(model.ToEntity());
-            await _departmentRepository.SaveChanges();
+            var id = await _departmentRepository.Add(model.ToEntity());
+            return id;
         }
 
         public async Task Delete(int id)

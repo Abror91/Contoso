@@ -28,9 +28,11 @@ namespace Contose.DAL.Core.Reposotories
             return await dbSet.Where(s => s.Id == id).FirstOrDefaultAsync();
         }
 
-        public virtual async Task Add(T entity)
+        public virtual async Task<int> Add(T entity)
         {
             await dbSet.AddAsync(entity);
+            await SaveChanges();
+            return entity.Id;
         }
 
         public virtual void Edit(T entity)

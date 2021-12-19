@@ -9,7 +9,7 @@ namespace Contoso.Services.IServices
     {
         Task<IEnumerable<DepartmentDTO>> GetDepartments();
         Task<DepartmentDTO> GetById(int id);
-        Task Add(AddDepartmentViewModel model);
+        Task<int> Add(AddDepartmentViewModel model);
         Task Edit(EditDepartmentViewModel model);
         Task Delete(int id);
     }

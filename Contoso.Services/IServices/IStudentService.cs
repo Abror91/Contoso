@@ -9,7 +9,7 @@ namespace Contoso.Services.IServices
     {
         Task<IEnumerable<StudentDTO>> GetSetudents();
         Task<StudentDTO> GetById(int id);
-        Task Add(AddStudentViewModel model);
+        Task<int> Add(AddStudentViewModel model);
         Task Edit(EditStudentViewModel model);
         Task Delete(int id);
     }

@@ -38,16 +38,16 @@ namespace Contoso.API.Controller
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Add([FromBody] AddStudentViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Model is not valid");
 
-            await _studentService.Add(model);
+            var id = await _studentService.Add(model);
 
-            return NoContent();
+            return Ok(id);
         }
 
         [HttpPost("{id}")]
