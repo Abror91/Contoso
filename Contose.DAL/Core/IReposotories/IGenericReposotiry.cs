@@ -8,7 +8,7 @@ namespace Contose.DAL.Core.IReposotories
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> GetById(int id);
-        Task Add(T entity);
+        Task<int> Add(T entity);
         void Edit(T entity);
         Task Delete(int id);
         Task SaveChanges();

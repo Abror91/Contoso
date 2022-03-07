@@ -38,21 +38,21 @@ namespace Contoso.API.Controller
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add([FromBody] AddStudentViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Model is not valid");
 
-            await _studentService.Add(model);
+            var id = await _studentService.Add(model);
 
-            return NoContent();
+            return Ok(id);
         }
 
         [HttpPost("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Edit([FromRoute] int id, [FromBody] EditStudentViewModel model)
         {
             if (!ModelState.IsValid)
@@ -68,7 +68,6 @@ namespace Contoso.API.Controller
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             await _studentService.Delete(id);
